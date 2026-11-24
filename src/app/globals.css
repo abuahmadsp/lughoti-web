@@ -1,0 +1,243 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ---------------------------------------------------------------------------
+   Design tokens — warm paper, deep emerald, muted gold.
+   Semantic tokens flip in .dark; brand/sand scales stay fixed.
+--------------------------------------------------------------------------- */
+:root {
+  --paper: #fbf8f1;
+  --surface: #ffffff;
+  --ink: #0a1a15;
+  --muted: #56675f;
+  --line: #e7dfd1;
+  --brand: #0b7c5e;
+  --brand-strong: #075843;
+  --gold: #b98434;
+  --ring: rgba(11, 124, 94, 0.35);
+}
+
+.dark {
+  --paper: #06110e;
+  --surface: #0c1c17;
+  --ink: #eef6f1;
+  --muted: #9db3a9;
+  --line: #1d352c;
+  --brand: #35c39a;
+  --brand-strong: #79e8c4;
+  --gold: #e0b269;
+  --ring: rgba(53, 195, 154, 0.4);
+}
+
+@theme inline {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  --font-arabic: var(--font-naskh), "Noto Naskh Arabic", "Traditional Arabic",
+    "Segoe UI", serif;
+
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-muted: var(--muted);
+  --color-line: var(--line);
+  --color-brand: var(--brand);
+  --color-brand-strong: var(--brand-strong);
+  --color-gold: var(--gold);
+
+  --color-emerald-50: #eafaf3;
+  --color-emerald-100: #cdf4e4;
+  --color-emerald-200: #9ee7cc;
+  --color-emerald-300: #63d3ad;
+  --color-emerald-400: #2fb98e;
+  --color-emerald-500: #139a74;
+  --color-emerald-600: #0b7c5e;
+  --color-emerald-700: #09634c;
+  --color-emerald-800: #0a4f3e;
+  --color-emerald-900: #0a4135;
+  --color-emerald-950: #03241d;
+
+  --color-sand-50: #fdf9f1;
+  --color-sand-100: #f9eed8;
+  --color-sand-200: #f1dcb0;
+  --color-sand-300: #e7c17e;
+  --color-sand-400: #dda552;
+  --color-sand-500: #cd8a31;
+  --color-sand-600: #b26e26;
+  --color-sand-700: #925522;
+  --color-sand-800: #784521;
+  --color-sand-900: #64391e;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-feature-settings: "ss01" 1, "cv01" 1;
+  }
+
+  ::selection {
+    background: var(--brand);
+    color: #ffffff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Decorative layers
+--------------------------------------------------------------------------- */
+.bg-grid {
+  background-image:
+    linear-gradient(
+      to right,
+      color-mix(in srgb, var(--ink) 7%, transparent) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      to bottom,
+      color-mix(in srgb, var(--ink) 7%, transparent) 1px,
+      transparent 1px
+    );
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 0%, #000 20%, transparent 78%);
+}
+
+.bg-dots {
+  background-image: radial-gradient(
+    color-mix(in srgb, var(--ink) 14%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 22px 22px;
+}
+
+.noise {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.42'/%3E%3C/svg%3E");
+}
+
+.text-gradient {
+  background-image: linear-gradient(
+    100deg,
+    var(--brand) 0%,
+    #139a74 38%,
+    var(--gold) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ---------------------------------------------------------------------------
+   Motion
+--------------------------------------------------------------------------- */
+@keyframes float-slow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-12px) rotate(1.2deg);
+  }
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes equalize {
+  0%,
+  100% {
+    transform: scaleY(0.35);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(11, 124, 94, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(11, 124, 94, 0);
+  }
+}
+
+@utility animate-float {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+@utility animate-fade-up {
+  animation: fade-up 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+
+@utility animate-eq {
+  animation: equalize 1s ease-in-out infinite;
+}
+
+@utility animate-pulse-dot {
+  animation: pulse-dot 2.4s ease-out infinite;
+}
+
+@keyframes flow-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility animate-flow-in {
+  animation: flow-in 0.24s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@utility arabic-balance {
+  text-wrap: balance;
+  line-height: 2.05;
+}
